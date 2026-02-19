@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import FiltersPanel, { FiltersState } from '@/components/services/FiltersPanel';
@@ -32,7 +32,6 @@ function ServicesPageContent() {
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<ProvidersListResponse | null>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { openLogin } = useAuthModal();
@@ -80,7 +79,7 @@ function ServicesPageContent() {
     }));
     setPage(qp.get('page') ? Number(qp.get('page')) : 1);
     setPageSize(qp.get('pageSize') ? Number(qp.get('pageSize')) : 10);
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     const qp = new URLSearchParams();
